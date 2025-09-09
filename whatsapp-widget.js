@@ -205,6 +205,30 @@
             flex-grow: 1;
         }
 
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            font-size: 12px;
+            color: #666;
+            line-height: 1.3;
+        }
+
+        .checkbox-group a {
+            color: #25D366;
+            text-decoration: none;
+        }
+
         .send-btn {
             width: 100%;
             background: #25D366;
@@ -370,23 +394,20 @@
 
     function applyPhoneMask(e) {
         let value = e.target.value.replace(/\D/g, '');
-        let maskedValue = '';
-
-        if (value.length > 2) {
-            maskedValue = `(${value.substring(0, 2)}) `;
-            value = value.substring(2);
-        } else {
-            e.target.value = value;
-            return;
-        }
-
-        if (value.length > 9) {
-            maskedValue += `${value.substring(0, 5)}-${value.substring(5, 9)}`;
-        } else if (value.length > 4) {
-            maskedValue += `${value.substring(0, 4)}-${value.substring(4, 8)}`;
-        }
         
-        e.target.value = maskedValue;
+        if (value.length > 11) value = value.substring(0, 11);
+
+        if (value.length >= 2 && value.length <= 6) {
+            value = `(${value.substring(0, 2)}) ${value.substring(2, 6)}`;
+        } else if (value.length >= 7 && value.length <= 10) {
+            value = `(${value.substring(0, 2)}) ${value.substring(2, 6)}-${value.substring(6, 10)}`;
+        } else if (value.length >= 11) {
+            value = `(${value.substring(0, 2)}) ${value.substring(2, 7)}-${value.substring(7, 11)}`;
+        } else if (value.length > 0) {
+            value = `(${value.substring(0, 2)})`;
+        }
+
+        e.target.value = value;
     }
 
     function init() {
