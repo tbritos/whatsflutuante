@@ -396,25 +396,28 @@
     
         toggleModal();
         form.reset();
+    function applyPhoneMask(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    let maskedValue = '';
+
+    // Adiciona os parênteses do DDD se houver mais de 2 dígitos
+    if (value.length > 2) {
+        maskedValue = `(${value.substring(0, 2)}) `;
+        value = value.substring(2);
+    } else {
+        e.target.value = value;
+        return;
     }
 
-    function applyPhoneMask(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length > 2) {
-            value = '(' + value.substring(0, 2) + ') ' + value.substring(2);
-        }
-        if (value.length > 9) {
-        maskedValue = `(${value.substring(0, 2)}) ${value.substring(2, 7)}-${value.substring(7, 11)}`;
-    } else if (value.length > 4) {
-        maskedValue = `(${value.substring(0, 2)}) ${value.substring(2, 6)}-${value.substring(6, 10)}`;
-    } else if (value.length > 0) {
-        maskedValue = `(${value.substring(0, 2)}) ${value.substring(2, 6)}`;
+    // Formata para 9 dígitos (celular)
+    if (value.length > 4) {
+        maskedValue += `${value.substring(0, 5)}-${value.substring(5, 9)}`;
     } else {
-        maskedValue = value;
+        maskedValue += value;
     }
-    
+
     e.target.value = maskedValue;
-    }
+}
 
     function init() {
         const style = document.createElement('style');
