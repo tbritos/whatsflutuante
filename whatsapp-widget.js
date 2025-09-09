@@ -386,16 +386,14 @@
             console.error('Ocorreu um erro na requisição do webhook:', error);
         });
     
-        // 2. Prepara e abre o WhatsApp para o usuário
-        let whatsappMessage = `*Novo Contato - Autoforce*\n\n`;
-        whatsappMessage += `👤 *Nome:* ${name}\n`;
-        whatsappMessage += `📱 *Telefone:* +55${phone}\n`;
-        whatsappMessage += `🏢 *Empresa:* ${company}\n`;
-        whatsappMessage += `📍 *Como nos conheceu:* ${howKnew}\n\n`;
-        whatsappMessage += `Olá! Gostaria de conhecer mais sobre os serviços da Autoforce. Aguardo o contato!`;
-    
+        // 2. Prepara a mensagem para o WhatsApp
+        const whatsappMessage = "Olá! Gostaria de conhecer mais sobre os serviços da Autoforce.";
         const encodedMessage = encodeURIComponent(whatsappMessage);
         const whatsappURL = `https://wa.me/${numeroWhatsApp}?text=${encodedMessage}`;
+        // 3. Abre o WhatsApp com a mensagem pré-preenchida
+        
+
+    
     
         window.open(whatsappURL, '_blank');
     
