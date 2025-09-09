@@ -119,7 +119,7 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            color: #4267F5;
+            color: #0027D4;
             font-size: 16px;
             flex-shrink: 0;
         }
@@ -280,7 +280,7 @@
     const modalHtml = `
         <div class="modal-header">
             <div class="profile-pic"><img src="https://static.autodromo.com.br/uploads/eb9a6d5e-104f-4cbb-83d3-1f7a9853a535_LARA-IA-SDR-AUTOFORCE.png" alt="Foto de perfil"></div>
-            <div style="overflow: hidden;">
+            <div class="modal-text">
                 <h3>Fale com a Lara</h3>
                 <p>Vamos acelerar seu negócio.</p>
             </div>
@@ -387,37 +387,31 @@
         const whatsappMessage = "Olá! Gostaria de conhecer mais sobre os serviços da Autoforce.";
         const encodedMessage = encodeURIComponent(whatsappMessage);
         const whatsappURL = `https://wa.me/${numeroWhatsApp}?text=${encodedMessage}`;
+    
         // 3. Abre o WhatsApp com a mensagem pré-preenchida
-        
-
-    
-    
         window.open(whatsappURL, '_blank');
     
         toggleModal();
         form.reset();
+    }
+
     function applyPhoneMask(e) {
-    let value = e.target.value.replace(/\D/g, '');
-    let maskedValue = '';
+        let value = e.target.value.replace(/\D/g, '');
+        let maskedValue = '';
 
-    // Adiciona os parênteses do DDD se houver mais de 2 dígitos
-    if (value.length > 2) {
-        maskedValue = `(${value.substring(0, 2)}) `;
-        value = value.substring(2);
-    } else {
-        e.target.value = value;
-        return;
+        if (value.length > 2) {
+            maskedValue = `(${value.substring(0, 2)}) `;
+            value = value.substring(2);
+        }
+
+        if (value.length > 9) {
+            maskedValue += `${value.substring(0, 5)}-${value.substring(5, 9)}`;
+        } else if (value.length > 4) {
+            maskedValue += `${value.substring(0, 4)}-${value.substring(4, 8)}`;
+        }
+        
+        e.target.value = maskedValue;
     }
-
-    // Formata para 9 dígitos (celular)
-    if (value.length > 4) {
-        maskedValue += `${value.substring(0, 5)}-${value.substring(5, 9)}`;
-    } else {
-        maskedValue += value;
-    }
-
-    e.target.value = maskedValue;
-}
 
     function init() {
         const style = document.createElement('style');
