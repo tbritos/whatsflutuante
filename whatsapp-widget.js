@@ -67,6 +67,9 @@
             padding: 20px;
             color: white;
             position: relative;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
         .modal-header h3 {
@@ -79,6 +82,10 @@
             font-size: 14px;
             opacity: 0.9;
             margin: 0;
+        }
+
+        .modal-header div[style="overflow: hidden;"] {
+            flex-grow: 1;
         }
 
         .close-btn {
@@ -104,8 +111,8 @@
         }
 
         .profile-pic {
-            width: 40px;
-            height: 40px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             background: #fff;
             display: flex;
@@ -114,9 +121,14 @@
             font-weight: bold;
             color: #4267F5;
             font-size: 16px;
-            float: left;
-            margin-right: 15px;
-            margin-top: -5px;
+            flex-shrink: 0;
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
 
         .modal-body {
