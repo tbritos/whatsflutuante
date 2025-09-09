@@ -287,9 +287,6 @@
             <button class="close-btn">&times;</button>
         </div>
         <div class="modal-body">
-            <div class="welcome-message">
-                Pronto para dar o próximo passo? Preencha seus dados para conversarmos
-            </div>
             <form id="whatsappForm">
                 <div class="form-group">
                     <label for="name">Seu nome</label>
