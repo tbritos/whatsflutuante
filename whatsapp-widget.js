@@ -404,9 +404,16 @@
             value = '(' + value.substring(0, 2) + ') ' + value.substring(2);
         }
         if (value.length > 9) {
-            value = value.substring(0, 9) + '-' + value.substring(9, 13);
-        }
-        e.target.value = value;
+        maskedValue = `(${value.substring(0, 2)}) ${value.substring(2, 7)}-${value.substring(7, 11)}`;
+    } else if (value.length > 4) {
+        maskedValue = `(${value.substring(0, 2)}) ${value.substring(2, 6)}-${value.substring(6, 10)}`;
+    } else if (value.length > 0) {
+        maskedValue = `(${value.substring(0, 2)}) ${value.substring(2, 6)}`;
+    } else {
+        maskedValue = value;
+    }
+    
+    e.target.value = maskedValue;
     }
 
     function init() {
