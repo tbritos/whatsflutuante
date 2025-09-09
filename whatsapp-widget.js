@@ -172,7 +172,9 @@
             background: #f8f9fa;
             border: 2px solid #e9ecef;
             border-right: none;
-            padding: 12px 15px;
+            padding: 0 15px;
+            height: 48px;
+            line-height: 48px;
             border-radius: 8px 0 0 8px;
             font-size: 14px;
             display: flex;
@@ -182,6 +184,8 @@
 
         .phone-input input {
             border-radius: 0 8px 8px 0;
+            height: 48px;
+            flex-grow: 1;
         }
 
         .checkbox-group {
