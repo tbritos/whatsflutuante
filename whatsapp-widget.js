@@ -178,8 +178,10 @@
             border-radius: 8px 0 0 8px;
             font-size: 14px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 5px;
+            justify-content: center;
+            flex-shrink: 0;
         }
 
         .phone-input input {
