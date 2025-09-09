@@ -1,8 +1,9 @@
 (function() {
     // ----------------------------------------------------
-    // Passo 1: Configuração (Edite apenas esta linha)
+    // Passo 1: Configuração (Edite apenas estas linhas)
     // ----------------------------------------------------
     const numeroWhatsApp = '551152832958'; // Seu número completo: código do país + DDD + número. Ex: '5547988887777'
+    const webhookURL = 'https://webhook.hablla.com/v1/68b9920b6294b95892e33ec3'; // Sua URL do Webhook
 
     // ----------------------------------------------------
     // Passo 2: Código do Widget (Não altere nada abaixo)
@@ -16,14 +17,17 @@
             width: 60px;
             height: 60px;
             background: #25D366;
+            color: #fff;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
+            text-align: center;
+            font-size: 30px;
             box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
             transition: all 0.3s ease;
             z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
         }
 
         .whatsapp-float:hover {
@@ -174,7 +178,6 @@
             border-right: none;
             padding: 0 15px;
             height: 48px;
-            line-height: 48px;
             border-radius: 8px 0 0 8px;
             font-size: 14px;
             display: flex;
@@ -321,28 +324,69 @@
         }
     }
 
+    // Função para extrair os parâmetros UTM da URL
+    function getUtmParameters() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const utm = {};
+        for (const [key, value] of urlParams.entries()) {
+            if (key.startsWith('utm_')) {
+                utm[key] = value;
+            }
+        }
+        return utm;
+    }
+
     function sendToWhatsApp(event) {
         event.preventDefault();
-        
+    
         const form = event.target;
         const name = form.querySelector('#name').value;
-        const phone = form.querySelector('#phone').value.replace(/\D/g, ''); // Remove a máscara
+        const phone = form.querySelector('#phone').value.replace(/\D/g, '');
         const company = form.querySelector('#company').value;
         const howKnew = form.querySelector('#howKnew').value;
+    
+        // Dados do formulário
+        const formData = {
+            name: name,
+            phone: phone,
+            company: company,
+            howKnew: howKnew
+        };
         
-        // Formatação da mensagem para WhatsApp
-        let whatsappMessage = `🚀 *Novo Contato - Autoforce*\n\n`;
+        // Adiciona os UTMs aos dados do formulário
+        const utmParameters = getUtmParameters();
+        const dataForWebhook = { ...formData, ...utmParameters };
+    
+        // 1. Envia os dados para o webhook em segundo plano
+        fetch(webhookURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataForWebhook),
+        })
+        .then(response => {
+            if (!response.ok) {
+                console.error('Erro ao enviar dados para o webhook:', response.statusText);
+            }
+        })
+        .catch(error => {
+            console.error('Ocorreu um erro na requisição do webhook:', error);
+        });
+    
+        // 2. Prepara e abre o WhatsApp para o usuário
+        let whatsappMessage = `*Novo Contato - Autoforce*\n\n`;
         whatsappMessage += `👤 *Nome:* ${name}\n`;
-        whatsappMessage += `📱 *Telefone:* +55${phone}\n`; // Adiciona o código do país novamente
+        whatsappMessage += `📱 *Telefone:* +55${phone}\n`;
         whatsappMessage += `🏢 *Empresa:* ${company}\n`;
         whatsappMessage += `📍 *Como nos conheceu:* ${howKnew}\n\n`;
         whatsappMessage += `Olá! Gostaria de conhecer mais sobre os serviços da Autoforce. Aguardo o contato!`;
-        
+    
         const encodedMessage = encodeURIComponent(whatsappMessage);
-        
         const whatsappURL = `https://wa.me/${numeroWhatsApp}?text=${encodedMessage}`;
+    
         window.open(whatsappURL, '_blank');
-        
+    
         toggleModal();
         form.reset();
     }
@@ -358,28 +402,23 @@
         e.target.value = value;
     }
 
-    // Função de inicialização
     function init() {
-        // 1. Adiciona os estilos CSS ao head
         const style = document.createElement('style');
         style.textContent = cssContent;
         document.head.appendChild(style);
 
-        // 2. Adiciona o botão flutuante ao corpo
         floatBtnElement = document.createElement('div');
         floatBtnElement.className = 'whatsapp-float';
         floatBtnElement.innerHTML = buttonHtml;
         document.body.appendChild(floatBtnElement);
         floatBtnElement.addEventListener('click', toggleModal);
 
-        // 3. Adiciona o modal ao corpo
         modalElement = document.createElement('div');
         modalElement.className = 'whatsapp-modal';
         modalElement.id = 'whatsappModal';
         modalElement.innerHTML = modalHtml;
         document.body.appendChild(modalElement);
 
-        // 4. Adiciona os event listeners
         const closeBtn = modalElement.querySelector('.close-btn');
         if (closeBtn) {
             closeBtn.addEventListener('click', toggleModal);
@@ -395,7 +434,6 @@
             phoneInput.addEventListener('input', applyPhoneMask);
         }
 
-        // Fechar o modal ao clicar fora dele
         document.addEventListener('click', function(event) {
             if (modalOpen && !modalElement.contains(event.target) && !floatBtnElement.contains(event.target)) {
                 toggleModal();
@@ -403,7 +441,6 @@
         });
     }
 
-    // Inicia o script quando o DOM estiver pronto
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
