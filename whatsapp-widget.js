@@ -205,30 +205,6 @@
             flex-grow: 1;
         }
 
-        .checkbox-group {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            width: auto;
-            margin: 0;
-        }
-
-        .checkbox-group label {
-            margin: 0;
-            font-size: 12px;
-            color: #666;
-            line-height: 1.3;
-        }
-
-        .checkbox-group a {
-            color: #25D366;
-            text-decoration: none;
-        }
-
         .send-btn {
             width: 100%;
             background: #25D366;
@@ -287,6 +263,9 @@
             <button class="close-btn">&times;</button>
         </div>
         <div class="modal-body">
+            <div class="welcome-message">
+                Pronto para dar o próximo passo? Preencha seus dados para conversarmos
+            </div>
             <form id="whatsappForm">
                 <div class="form-group">
                     <label for="name">Seu nome</label>
@@ -333,7 +312,6 @@
         }
     }
 
-    // Função para extrair os parâmetros UTM da URL
     function getUtmParameters() {
         const urlParams = new URLSearchParams(window.location.search);
         const utm = {};
@@ -354,7 +332,6 @@
         const company = form.querySelector('#company').value;
         const howKnew = form.querySelector('#howKnew').value;
     
-        // Dados do formulário
         const formData = {
             name: name,
             phone: phone,
@@ -362,11 +339,9 @@
             howKnew: howKnew
         };
         
-        // Adiciona os UTMs aos dados do formulário
         const utmParameters = getUtmParameters();
         const dataForWebhook = { ...formData, ...utmParameters };
     
-        // 1. Envia os dados para o webhook em segundo plano
         fetch(webhookURL, {
             method: 'POST',
             headers: {
@@ -383,12 +358,10 @@
             console.error('Ocorreu um erro na requisição do webhook:', error);
         });
     
-        // 2. Prepara a mensagem para o WhatsApp
         const whatsappMessage = "Olá! Gostaria de conhecer mais sobre os serviços da Autoforce.";
         const encodedMessage = encodeURIComponent(whatsappMessage);
         const whatsappURL = `https://wa.me/${numeroWhatsApp}?text=${encodedMessage}`;
     
-        // 3. Abre o WhatsApp com a mensagem pré-preenchida
         window.open(whatsappURL, '_blank');
     
         toggleModal();
@@ -402,6 +375,9 @@
         if (value.length > 2) {
             maskedValue = `(${value.substring(0, 2)}) `;
             value = value.substring(2);
+        } else {
+            e.target.value = value;
+            return;
         }
 
         if (value.length > 9) {
