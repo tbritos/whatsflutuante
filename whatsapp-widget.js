@@ -258,7 +258,7 @@
 
     const modalHtml = `
         <div class="modal-header">
-            <div class="profile-pic">L</div>
+            <div class="profile-pic"><img src="https://static.autodromo.com.br/uploads/eb9a6d5e-104f-4cbb-83d3-1f7a9853a535_LARA-IA-SDR-AUTOFORCE.png" alt="Foto de perfil"></div>
             <div style="overflow: hidden;">
                 <h3>Fale com a Lara</h3>
                 <p>Vamos acelerar seu negócio.</p>
