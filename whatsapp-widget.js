@@ -2,7 +2,7 @@
     // ----------------------------------------------------
     // Passo 1: Configuração (Edite apenas esta linha)
     // ----------------------------------------------------
-    const numeroWhatsApp = '5511999999999'; // Seu número completo: código do país + DDD + número. Ex: '5547988887777'
+    const numeroWhatsApp = '551152832958'; // Seu número completo: código do país + DDD + número. Ex: '5547988887777'
 
     // ----------------------------------------------------
     // Passo 2: Código do Widget (Não altere nada abaixo)
