@@ -63,7 +63,7 @@
         }
 
         .modal-header {
-            background: #4267F5;
+            background: #0027D4;
             padding: 20px;
             color: white;
             position: relative;
